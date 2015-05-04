@@ -36,15 +36,10 @@ import java.util.List;
  */
 public class HtmlRenamer {
 
-  private static enum RenameMode {
-    POLYMER_0_5,
-    POLYMER_0_8,
-  }
-
   private static class DatabindingRenamer implements NodeVisitor {
 
     private final ImmutableMap<String, String> renameMap;
-    private final HtmlRenamer.RenameMode renameMode;
+    private final RenameMode renameMode;
 
     /** true if we are inside a script element. */
     private boolean insideScriptElement = false;
@@ -54,7 +49,7 @@ public class HtmlRenamer {
      * @param renameMap A mapping from symbol to renamed symbol.
      */
     public DatabindingRenamer(
-        ImmutableMap<String, String> renameMap, HtmlRenamer.RenameMode renameMode) {
+        ImmutableMap<String, String> renameMap, RenameMode renameMode) {
       this.renameMap = renameMap;
       this.renameMode = renameMode;
     }
@@ -137,13 +132,13 @@ public class HtmlRenamer {
             sb.append(t.value);
             break;
           case OPENSQUAREBRACES:
-            if (renameMode == HtmlRenamer.RenameMode.POLYMER_0_8) {
+            if (renameMode == RenameMode.POLYMER_0_8) {
               insideBraces = true;
             }
             sb.append(t.value);
             break;
           case CLOSESQUAREBRACES:
-            if (renameMode == HtmlRenamer.RenameMode.POLYMER_0_8) {
+            if (renameMode == RenameMode.POLYMER_0_8) {
               insideBraces = false;
             }
             sb.append(t.value);
@@ -162,7 +157,7 @@ public class HtmlRenamer {
     RenameMode renameMode = RenameMode.POLYMER_0_8;
     Elements polymerDomElements = document.getElementsByTag("dom-module");
     if (polymerDomElements.isEmpty()) {
-      renameMode = HtmlRenamer.RenameMode.POLYMER_0_5;
+      renameMode = RenameMode.POLYMER_0_5;
       polymerDomElements = document.getElementsByTag("polymer-element");
     }
     List<String> polymerCustomElements = new ArrayList<String>();
