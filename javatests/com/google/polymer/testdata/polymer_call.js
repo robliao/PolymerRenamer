@@ -73,12 +73,17 @@ Polymer({
       type: Number,
       computed: 'norename(test, testnorename)',
       observer: 'someOtherObserver'
+    },
+    testreflected: {
+      type: String,
+      observer: goog.reflect.objectProperty('coolSymbolName', {})
     }
   },
   keyBindings: {
     'up': 'coolSymbolName',
     'down': 'norename',
-    'left': 'symbolB'
+    'left': 'symbolB',
+    'reflected': goog.reflect.objectProperty('symbolB', {})
   },
   kB: {
     'right': 'MY_SYMBOL'
@@ -89,7 +94,8 @@ Polymer({
   ],
   listeners: {
     handleClick: 'coolSymbolName(MY_SYMBOL, testnorename)',
-    handleNotRenamed: 'keep(test, testnorename)'
+    handleNotRenamed: 'keep(test, testnorename)',
+    handleReflected: goog.reflect.objectProperty('symbolA', {})
   },
   untouched1: [
     'MY_SYMBOL(norename, symbolA, symbolB)',
